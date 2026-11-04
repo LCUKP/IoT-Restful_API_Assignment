@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f6f1e8" />
+  <title>Student Directory</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+    :root {
+      --paper: #f6f1e8;
+      --ink: #171717;
+      --yellow: #ffe45c;
+      --blue: #9bd5ff;
+      --pink: #ffafc2;
+      --white: #fffdf8;
+      --muted: #716d65;
+      --border: 2.5px solid var(--ink);
+      --shadow: 4px 4px 0 var(--ink);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'IBM Plex Sans Thai', system-ui, sans-serif;
+      background-image: radial-gradient(#17171718 .8px, transparent .8px);
+      background-size: 14px 14px;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .shell {
+      width: min(980px, calc(100% - 32px));
+      margin: 28px auto 48px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 13px 16px;
+      background: var(--white);
+      border: var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border: 2px solid var(--ink);
+      background: var(--yellow);
+      font-size: 21px;
+      transform: rotate(-5deg);
+    }
+
+    .brand {
+      font: 700 17px 'Space Grotesk', sans-serif;
+      letter-spacing: -.5px;
+    }
+
+    .intro {
+      margin: 25px 0 22px;
+      padding: 23px 25px;
+      background: var(--yellow);
+      border: var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 8px 0 5px;
+      font: 700 clamp(30px, 5vw, 43px)/1.05 'Space Grotesk', 'IBM Plex Sans Thai', sans-serif;
+      letter-spacing: -1.8px;
+    }
+
+    .intro p {
+      margin: 0;
+      font-size: 13px;
+    }
+
+    .report {
+      margin: 20px 0 25px;
+    }
+
+    .report-title {
+      margin: 0 0 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .report-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .report-item {
+      min-height: 82px;
+      padding: 12px 14px;
+      border: var(--border);
+      box-shadow: 3px 3px 0 var(--ink);
+      background: var(--white);
+    }
+
+    .report-item.total {
+      background: var(--yellow);
+    }
+
+    .report-item.male {
+      background: var(--blue);
+    }
+
+    .report-item.female {
+      background: var(--pink);
+    }
+
+    .report-label {
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .report-number {
+      margin-top: 3px;
+      font: 700 27px/1 'Space Grotesk', sans-serif;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin: 24px 0 13px;
+    }
+
+    h2 {
+      margin: 0;
+      font: 700 21px 'Space Grotesk', 'IBM Plex Sans Thai', sans-serif;
+    }
+
+    .btn {
+      border: var(--border);
+      padding: 9px 13px;
+      font-size: 12px;
+      font-weight: 700;
+      box-shadow: 3px 3px 0 var(--ink);
+      transition: transform .12s, box-shadow .12s;
+    }
+
+    .btn:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0 var(--ink);
+    }
+
+    .btn:active {
+      transform: translate(3px, 3px);
+      box-shadow: none;
+    }
+
+    .btn:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
+    .btn-dark {
+      background: var(--ink);
+      color: white;
+    }
+
+    .btn-yellow {
+      background: var(--yellow);
+      color: var(--ink);
+    }
+
+    .btn-pink {
+      background: var(--pink);
+      color: var(--ink);
+    }
+
+    .btn-small {
+      padding: 6px 9px;
+      font-size: 11px;
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+
+    .table-card {
+      background: var(--white);
+      border: var(--border);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 650px;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: var(--blue);
+    }
+
+    th {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 2px solid var(--ink);
+      font-size: 10px;
+      letter-spacing: .8px;
+    }
+
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #ded8ce;
+      font-size: 13px;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    tbody tr:hover {
+      background: #fff9dc;
+    }
+
+    .student-code {
+      display: inline-block;
+      padding: 4px 7px;
+      background: #f0eee8;
+      border: 1.5px solid var(--ink);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .empty,
+    .loading {
+      padding: 34px 16px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .empty strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--ink);
+      font-size: 16px;
+    }
+
+    .footer {
+      margin-top: 15px;
+      text-align: right;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    dialog {
+      width: min(480px, calc(100% - 28px));
+      padding: 0;
+      border: var(--border);
+      background: var(--white);
+      color: var(--ink);
+      box-shadow: 7px 7px 0 var(--ink);
+    }
+
+    dialog::backdrop {
+      background: #1717179c;
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px;
+      background: var(--yellow);
+      border-bottom: var(--border);
+    }
+
+    .modal-title {
+      font: 700 20px 'Space Grotesk', 'IBM Plex Sans Thai', sans-serif;
+    }
+
+    .close-btn {
+      width: 30px;
+      height: 30px;
+      border: 2px solid var(--ink);
+      background: var(--white);
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    .form-body {
+      padding: 18px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 13px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid var(--ink);
+      background: white;
+      border-radius: 0;
+      outline: none;
+      font-size: 13px;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      outline: 3px solid var(--blue);
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 9px;
+      margin-top: 18px;
+    }
+
+    .notice {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      padding: 11px 14px;
+      max-width: calc(100% - 36px);
+      border: var(--border);
+      box-shadow: var(--shadow);
+      background: #baf2c2;
+      font-size: 12px;
+      font-weight: 700;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: .2s;
+    }
+
+    .notice.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .notice.error {
+      background: var(--pink);
+    }
+
+    @media (max-width: 600px) {
+      .shell {
+        width: calc(100% - 22px);
+        margin-top: 14px;
+      }
+
+      .intro {
+        padding: 19px;
+      }
+
+      .section-head {
+        align-items: flex-start;
+      }
+
+      .report-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="shell">
+    <nav class="topbar">
+      <div class="brand-mark">✳</div>
+      <div class="brand">STUDENT DIRECTORY</div>
+    </nav>
+
+    <section class="intro">
+      <div class="eyebrow">Student management / 2026</div>
+      <h1>STUDENT LIST.</h1>
+      <p>จัดการข้อมูลนักศึกษา เพิ่ม แก้ไข และลบข้อมูลได้ในหน้าเดียว</p>
+    </section>
+
+    <section class="report" aria-label="รายงานจำนวนนักศึกษา">
+      <p class="report-title">รายงานจำนวนนักศึกษา</p>
+      <div class="report-grid">
+        <div class="report-item total">
+          <div class="report-label">ทั้งหมด</div>
+          <div class="report-number" id="countTotal">0</div>
+        </div>
+        <div class="report-item male">
+          <div class="report-label">ชาย</div>
+          <div class="report-number" id="countMale">0</div>
+        </div>
+        <div class="report-item female">
+          <div class="report-label">หญิง</div>
+          <div class="report-number" id="countFemale">0</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>รายชื่อนักศึกษา</h2>
+        <button class="btn btn-dark" id="addBtn">＋ เพิ่มนักศึกษา</button>
+      </div>
+
+      <div class="table-card">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>ชื่อ - นามสกุล</th>
+                <th>รหัสนักศึกษา</th>
+                <th>วันเกิด</th>
+                <th>เพศ</th>
+                <th>จัดการ</th>
+              </tr>
+            </thead>
+            <tbody id="studentRows">
+              <tr>
+                <td colspan="5" class="loading">กำลังโหลดข้อมูล...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="footer">Hono REST API · PostgreSQL</div>
+    </section>
+  </main>
+
+  <dialog id="studentDialog">
+    <div class="modal-head">
+      <div class="modal-title" id="dialogTitle">เพิ่มนักศึกษา</div>
+      <button class="close-btn" id="closeDialog" aria-label="ปิด">×</button>
+    </div>
+    <form id="studentForm" class="form-body">
+      <div class="form-grid">
+        <div class="field"><label for="firstName">ชื่อ</label><input id="firstName" maxlength="100" required /></div>
+        <div class="field"><label for="lastName">นามสกุล</label><input id="lastName" maxlength="100" required /></div>
+        <div class="field full"><label for="studentId">รหัสนักศึกษา</label><input id="studentId" maxlength="20"
+            required /></div>
+        <div class="field"><label for="birthDate">วันเกิด</label><input id="birthDate" type="date" required /></div>
+        <div class="field"><label for="gender">เพศ</label><select id="gender" required>
+            <option value="">เลือกเพศ</option>
+            <option value="Male">ชาย</option>
+            <option value="Female">หญิง</option>
+          </select></div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn" id="cancelBtn">ยกเลิก</button>
+        <button type="submit" class="btn btn-dark" id="saveBtn">บันทึก</button>
+      </div>
+    </form>
+  </dialog>
+  <div class="notice" id="notice" role="status"></div>
+
+  <script>
+    const API = '/api/v1/students';
+    let students = [];
+    let editingId = null;
+    const $ = (id) => document.getElementById(id);
+    const dialog = $('studentDialog');
+
+    function escapeHTML(value) {
+      return String(value ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+    }
+    function dateForInput(value) {
+      if (!value) return '';
+      const raw = String(value);
+      if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;
+      const parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Bangkok', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date(raw));
+      const get = type => parts.find(part => part.type === type)?.value;
+      return `${get('year')}-${get('month')}-${get('day')}`;
+    }
+    function notify(message, error = false) {
+      const box = $('notice'); box.textContent = message; box.classList.toggle('error', error); box.classList.add('show');
+      clearTimeout(notify.timer); notify.timer = setTimeout(() => box.classList.remove('show'), 3000);
+    }
+    async function request(url, options = {}) {
+      const response = await fetch(url, { ...options, headers: { ...(options.body ? { 'Content-Type': 'application/json' } : {}), ...options.headers } });
+      const text = await response.text();
+      let data = {}; try { data = text ? JSON.parse(text) : {}; } catch { data = { message: text }; }
+      if (!response.ok) throw new Error(data.message || `HTTP ${response.status}`);
+      return data;
+    }
+    function render() {
+      const tbody = $('studentRows');
+      $('countTotal').textContent = students.length;
+      $('countMale').textContent = students.filter(student => student.gender === 'Male').length;
+      $('countFemale').textContent = students.filter(student => student.gender === 'Female').length;
+      if (!students.length) {
+        tbody.innerHTML = '<tr><td colspan="5"><div class="empty"><strong>ยังไม่มีข้อมูลนักศึกษา</strong>กดปุ่ม “เพิ่มนักศึกษา” เพื่อเริ่มต้น</div></td></tr>';
+        return;
+      }
+      tbody.innerHTML = students.map(student => {
+        const name = `${student.first_name ?? ''} ${student.last_name ?? ''}`.trim();
+        const gender = student.gender === 'Male' ? 'ชาย' : student.gender === 'Female' ? 'หญิง' : 'อื่น ๆ';
+        return `<tr>
+          <td>${escapeHTML(name)}</td>
+          <td><span class="student-code">${escapeHTML(student.student_id)}</span></td>
+          <td>${escapeHTML(dateForInput(student.birth_date))}</td>
+          <td>${gender}</td>
+          <td><div class="actions"><button class="btn btn-yellow btn-small" onclick="editStudent(${Number(student.id)})">แก้ไข</button><button class="btn btn-pink btn-small" onclick="deleteStudent(${Number(student.id)})">ลบ</button></div></td>
+        </tr>`;
+      }).join('');
+    }
+    async function loadStudents() {
+      try {
+        const result = await request(API);
+        students = Array.isArray(result.data) ? result.data : [];
+        render();
+      } catch (error) {
+        $('studentRows').innerHTML = `<tr><td colspan="5"><div class="empty"><strong>โหลดข้อมูลไม่สำเร็จ</strong>${escapeHTML(error.message)}<br><button class="btn btn-yellow" style="margin-top:12px" onclick="loadStudents()">ลองอีกครั้ง</button></div></td></tr>`;
+      }
+    }
+    function openAdd() {
+      editingId = null; $('studentForm').reset(); $('dialogTitle').textContent = 'เพิ่มนักศึกษา'; $('saveBtn').textContent = 'บันทึก'; dialog.showModal();
+    }
+    function editStudent(id) {
+      const student = students.find(item => Number(item.id) === Number(id));
+      if (!student) return;
+      editingId = Number(id); $('dialogTitle').textContent = 'แก้ไขข้อมูลนักศึกษา';
+      $('firstName').value = student.first_name ?? ''; $('lastName').value = student.last_name ?? '';
+      $('studentId').value = student.student_id ?? ''; $('birthDate').value = dateForInput(student.birth_date);
+      $('gender').value = student.gender ?? ''; $('saveBtn').textContent = 'บันทึกการแก้ไข'; dialog.showModal();
+    }
+    async function deleteStudent(id) {
+      const student = students.find(item => Number(item.id) === Number(id));
+      if (!student || !confirm(`ต้องการลบข้อมูล ${student.first_name} ${student.last_name} ใช่หรือไม่?`)) return;
+      try { await request(`${API}/${id}`, { method: 'DELETE' }); notify('ลบข้อมูลสำเร็จ'); await loadStudents(); }
+      catch (error) { notify(error.message, true); }
+    }
+    $('studentForm').addEventListener('submit', async event => {
+      event.preventDefault();
+      const body = {
+        firstName: $('firstName').value.trim(), lastName: $('lastName').value.trim(),
+        studentId: $('studentId').value.trim(), birthDate: $('birthDate').value, gender: $('gender').value
+      };
+      const button = $('saveBtn'); button.disabled = true;
+      try {
+        if (editingId === null) { await request(API, { method: 'POST', body: JSON.stringify(body) }); notify('เพิ่มข้อมูลสำเร็จ'); }
+        else { await request(`${API}/${editingId}`, { method: 'PUT', body: JSON.stringify(body) }); notify('แก้ไขข้อมูลสำเร็จ'); }
+        dialog.close(); await loadStudents();
+      } catch (error) { notify(error.message, true); }
+      finally { button.disabled = false; }
+    });
+    $('addBtn').addEventListener('click', openAdd);
+    $('closeDialog').addEventListener('click', () => dialog.close());
+    $('cancelBtn').addEventListener('click', () => dialog.close());
+    window.editStudent = editStudent; window.deleteStudent = deleteStudent; window.loadStudents = loadStudents;
+    loadStudents();
+  </script>
+</body>
+
+</html>
